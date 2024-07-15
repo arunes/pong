@@ -1,11 +1,13 @@
-[gd_scene load_steps=12 format=3 uid="uid://45md3akbtgss"]
+[gd_scene load_steps=14 format=3 uid="uid://45md3akbtgss"]
 
-[ext_resource type="Script" path="res://Player.cs" id="1_hbhx4"]
 [ext_resource type="Texture2D" uid="uid://cuqccupvoj0g0" path="res://assets/Bg.png" id="1_ja8lm"]
 [ext_resource type="Script" path="res://Game.cs" id="1_jc5wn"]
-[ext_resource type="Script" path="res://CPU.cs" id="2_27dhn"]
 [ext_resource type="Script" path="res://Ball.cs" id="3_3p31t"]
+[ext_resource type="Script" path="res://Player1.cs" id="3_jh01d"]
+[ext_resource type="Script" path="res://Player2.cs" id="4_7m0sx"]
 [ext_resource type="Script" path="res://ScoreLeft.cs" id="4_fyk2a"]
+[ext_resource type="AudioStream" uid="uid://bnh250lwj622n" path="res://assets/score.mp3" id="7_3pqf6"]
+[ext_resource type="AudioStream" uid="uid://c2tkk17bgrvbr" path="res://assets/hit.mp3" id="7_lmfo8"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_v668n"]
 size = Vector2(20, 120)
@@ -28,11 +30,11 @@ texture = ExtResource("1_ja8lm")
 centered = false
 script = ExtResource("1_jc5wn")
 
-[node name="Player" type="StaticBody2D" parent="."]
+[node name="Player1" type="StaticBody2D" parent="."]
 position = Vector2(50, 324)
-script = ExtResource("1_hbhx4")
+script = ExtResource("3_jh01d")
 
-[node name="ColorRect" type="ColorRect" parent="Player"]
+[node name="ColorRect" type="ColorRect" parent="Player1"]
 anchors_preset = 4
 anchor_top = 0.5
 anchor_bottom = 0.5
@@ -41,15 +43,15 @@ offset_right = 20.0
 offset_bottom = 60.0
 grow_vertical = 2
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Player"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Player1"]
 position = Vector2(10, 0)
 shape = SubResource("RectangleShape2D_v668n")
 
-[node name="CPU" type="StaticBody2D" parent="."]
+[node name="Player2" type="StaticBody2D" parent="."]
 position = Vector2(1082, 324)
-script = ExtResource("2_27dhn")
+script = ExtResource("4_7m0sx")
 
-[node name="ColorRect" type="ColorRect" parent="CPU"]
+[node name="ColorRect" type="ColorRect" parent="Player2"]
 anchors_preset = 4
 anchor_top = 0.5
 anchor_bottom = 0.5
@@ -58,7 +60,7 @@ offset_right = 20.0
 offset_bottom = 60.0
 grow_vertical = 2
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="CPU"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Player2"]
 position = Vector2(10, 0)
 shape = SubResource("RectangleShape2D_v668n")
 
@@ -109,6 +111,12 @@ shape = SubResource("RectangleShape2D_ppqby")
 
 [node name="BallTimer" type="Timer" parent="."]
 one_shot = true
+
+[node name="Score" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("7_3pqf6")
+
+[node name="PaddleHit" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("7_lmfo8")
 
 [connection signal="body_entered" from="ScoreLeft" to="." method="OnBallHitLeft"]
 [connection signal="body_entered" from="ScoreRight" to="." method="OnBallHitRight"]

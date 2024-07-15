@@ -40,6 +40,8 @@ public partial class Ball : CharacterBody2D
             return;
         }
 
+        GetNode<AudioStreamPlayer>("../PaddleHit").Play();
+
         var collider = collision.GetCollider();
         if (collider is Paddle paddle)
         {

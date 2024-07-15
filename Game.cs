@@ -11,9 +11,15 @@ public partial class Game : Sprite2D
 
     internal const int PADDLE_SPEED = 500;
 
-    public void Start(bool singlePlayer)
+    public void Start()
     {
         GetNode<Timer>("BallTimer").Start();
+    }
+
+    internal void SetOptions(GameOptions options)
+    {
+        GetNode<Player1>("Player1").SetOptions(options);
+        GetNode<Player2>("Player2").SetOptions(options);
     }
 
     public void OnBallTimerTimeout()
@@ -23,13 +29,15 @@ public partial class Game : Sprite2D
 
     public void OnBallHitLeft(Node2D _body)
     {
+        GetNode<AudioStreamPlayer>("Score").Play();
         EmitSignal(SignalName.Player2Scored);
         GetNode<Timer>("BallTimer").Start();
-        
+
     }
 
     public void OnBallHitRight(Node2D _body)
     {
+        GetNode<AudioStreamPlayer>("Score").Play();
         EmitSignal(SignalName.Player1Scored);
         GetNode<Timer>("BallTimer").Start();
     }

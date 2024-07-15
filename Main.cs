@@ -2,15 +2,14 @@ using Godot;
 
 public partial class Main : Sprite2D
 {
-    private bool _isSinglePlayer = false;
     private int _player1Score = 0;
     private int _player2Score = 0;
 
     public override void _Ready()
-	{
-	}
+    {
+    }
 
-	public override void _Process(double delta)
+    public override void _Process(double delta)
     {
     }
 
@@ -32,20 +31,29 @@ public partial class Main : Sprite2D
     {
         _player1Score = 0;
         _player2Score = 0;
-        _isSinglePlayer = singlePlayer;
 
         var hud = GetNode<HUD>("HUD");
         hud.UpdateScores(_player1Score, _player2Score);
         hud.ShowMessage("Get Ready!");
-        GetNode<Game>("Game").Show();
+
+        var options = new GameOptions(
+                ControlledByEnum.Player,
+                singlePlayer ? ControlledByEnum.CPU : ControlledByEnum.Player,
+                DifficultyEnum.Normal);
+
+        var game = GetNode<Game>("Game");
+        game.SetOptions(options);
+        game.Show();
+
+        GetNode<AudioStreamPlayer>("Countdown").Play();
         GetNode<Timer>("StartTimer").Start();
-        
+
         // reset resources and start music
     }
 
     private void OnStartTimerTimeout()
     {
         var game = GetNode<Game>("Game");
-        game.Start(_isSinglePlayer);
+        game.Start();
     }
 }
