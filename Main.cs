@@ -1,37 +1,51 @@
 using Godot;
-using System;
 
 public partial class Main : Sprite2D
 {
-    internal const int PADDLE_SPEED = 500;
+    private bool _isSinglePlayer = false;
+    private int _player1Score = 0;
+    private int _player2Score = 0;
 
-    private int _playerScore = 0;
-	private int _cpuScore = 0;
-
-	public override void _Ready()
+    public override void _Ready()
 	{
 	}
 
 	public override void _Process(double delta)
-	{
-	}
-
-	public void OnBallTimerTimeout()
-	{
-		GetNode<Ball>("Ball").NewBall();
-	}
-
-    public void OnBallHitLeft(Node2D body)
     {
-        _cpuScore++;
-        GetNode<Timer>("BallTimer").Start();
-        GetNode<Label>("HUD/CPUScore").Text = $"{_cpuScore}";
     }
 
-    public void OnBallHitRight(Node2D body)
+    public void Player1Scored()
     {
-        _playerScore++;
-        GetNode<Timer>("BallTimer").Start();
-        GetNode<Label>("HUD/PlayerScore").Text = $"{_playerScore}";
+        _player1Score++;
+        var hud = GetNode<HUD>("HUD");
+        hud.UpdateScores(_player1Score, _player2Score);
+    }
+
+    public void Player2Scored()
+    {
+        _player2Score++;
+        var hud = GetNode<HUD>("HUD");
+        hud.UpdateScores(_player1Score, _player2Score);
+    }
+
+    public void NewGame(bool singlePlayer)
+    {
+        _player1Score = 0;
+        _player2Score = 0;
+        _isSinglePlayer = singlePlayer;
+
+        var hud = GetNode<HUD>("HUD");
+        hud.UpdateScores(_player1Score, _player2Score);
+        hud.ShowMessage("Get Ready!");
+        GetNode<Game>("Game").Show();
+        GetNode<Timer>("StartTimer").Start();
+        
+        // reset resources and start music
+    }
+
+    private void OnStartTimerTimeout()
+    {
+        var game = GetNode<Game>("Game");
+        game.Start(_isSinglePlayer);
     }
 }

@@ -11,11 +11,11 @@ public partial class Player : Paddle
     {
         if (Input.IsActionPressed("ui_up"))
         {
-            Position += Vector2.Up * Main.PADDLE_SPEED * (float)delta;
+            Position += Vector2.Up * Game.PADDLE_SPEED * (float)delta;
         }
         else if (Input.IsActionPressed("ui_down"))
         {
-            Position += Vector2.Down * Main.PADDLE_SPEED * (float)delta;
+            Position += Vector2.Down * Game.PADDLE_SPEED * (float)delta;
         }
 
         Position = ClampY();

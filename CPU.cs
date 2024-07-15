@@ -17,9 +17,9 @@ public partial class CPU : Paddle
         _ballPosition = GetNode<Ball>("../Ball").Position;
         _ballDistance = Position.Y - _ballPosition.Y;
 
-        if (Math.Abs(_ballDistance) > (Main.PADDLE_SPEED * delta))
+        if (Math.Abs(_ballDistance) > (Game.PADDLE_SPEED * delta))
         {
-            _moveBy = Main.PADDLE_SPEED * (float)delta * (_ballDistance / Math.Abs(_ballDistance));
+            _moveBy = Game.PADDLE_SPEED * (float)delta * (_ballDistance / Math.Abs(_ballDistance));
         }
         else
         {
