@@ -11,9 +11,12 @@ public partial class Game : Sprite2D
 
     internal const int PADDLE_SPEED = 500;
 
+    private bool _gameIsStarted = false;
+
     public void Start()
     {
         GetNode<Timer>("BallTimer").Start();
+        _gameIsStarted = true;
     }
 
     internal void SetOptions(GameOptions options)

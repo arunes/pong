@@ -1,18 +1,20 @@
 using Godot;
-using System;
 
 public partial class HUD : CanvasLayer
 {
     [Signal]
     public delegate void StartGameEventHandler(bool singlePlayer);
 
-    public override void _Ready()
-	{
-	}
+    [Signal]
+    public delegate void PausePressedEventHandler();
 
-	public override void _Process(double delta)
-	{
-	}
+    public override void _Ready()
+    {
+    }
+
+    public override void _Process(double delta)
+    {
+    }
 
     public void UpdateScores(int player1, int player2)
     {
@@ -40,5 +42,15 @@ public partial class HUD : CanvasLayer
         GetNode<Label>("Player1Score").Show();
         GetNode<Label>("Player2Score").Show();
         EmitSignal(SignalName.StartGame, singlePlayer);
+    }
+
+    public override void _Input(InputEvent @event)
+    {
+        base._Input(@event);
+
+        if (Input.IsActionJustPressed("pause"))
+        {
+            EmitSignal(SignalName.PausePressed);
+        }
     }
 }
